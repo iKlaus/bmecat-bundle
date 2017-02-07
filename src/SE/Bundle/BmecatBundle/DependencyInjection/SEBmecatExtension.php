@@ -9,6 +9,7 @@
  */
 namespace SE\Bundle\BmecatBundle\DependencyInjection;
 
+use SE\Component\BMEcat\DocumentBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -19,7 +20,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  *
  * @package SE\Bundle\BmecatBundle
- * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ * @author  Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  */
 class SEBmecatExtension extends Extension
 {
@@ -31,15 +32,15 @@ class SEBmecatExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
         $documents = $config['documents'];
-        foreach($documents as $id => $document) {
+        foreach ($documents as $id => $document) {
 
-            $name = 'se.bmecat.document_builder'.$id;
+            $name = 'se.bmecat.document_builder.' . $id;
 
-            $definition = new Definition('SE\Component\BMEcat\DocumentBuilder');
+            $definition = new Definition(DocumentBuilder::class);
             $definition->addMethodCall('load', [$document]);
 
             $container->setDefinition($name, $definition);
