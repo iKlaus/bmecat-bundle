@@ -12,6 +12,7 @@ namespace SE\Bundle\BmecatBundle\DependencyInjection;
 use SE\Component\BMEcat\DocumentBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Definition;
@@ -40,7 +41,9 @@ class SEBmecatExtension extends Extension
 
             $name = 'se.bmecat.document_builder.' . $id;
 
-            $definition = new Definition(DocumentBuilder::class);
+            $serializerReference = new Reference('jms_serializer', ContainerInterface::NULL_ON_INVALID_REFERENCE);
+
+            $definition = new Definition(DocumentBuilder::class, [$serializerReference]);
             $definition->addMethodCall('load', [$document]);
 
             $container->setDefinition($name, $definition);
