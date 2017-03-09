@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "se/bmecat": ">=0.1.2"
+        "se/bmecat": "dev-feature/symfony3"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
@@ -23,5 +23,11 @@
         "psr-0": {
             "SE\\Bundle\\BmecatBundle": "src/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/iKlaus/bmecat.git"
+        }
+    ]
 }
